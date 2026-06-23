@@ -16,6 +16,7 @@
 </div>
 
 ---
+<img width="1905" height="886" alt="Screenshot 2026-06-23 194922" src="https://github.com/user-attachments/assets/c4d87b6d-99a9-4be5-b2c6-8478aafca375" />
 
 ## Overview
 
@@ -24,6 +25,8 @@ Trafficly is a production-grade automated traffic enforcement system built for s
 The platform is built to be **extensible** — helmet detection is the first active module, with signal jump detection, over-speeding, and triple riding planned as upcoming additions.
 
 ---
+<img width="1906" height="900" alt="Screenshot 2026-06-23 195044" src="https://github.com/user-attachments/assets/db0c12cf-de1a-478d-ab7b-0cdb31fe5cf9" />
+
 
 ## Features
 
@@ -41,6 +44,10 @@ The platform is built to be **extensible** — helmet detection is the first act
 | Triple Riding | 🔜 Planned | — |
 
 ---
+<img width="1217" height="258" alt="Screenshot 2026-06-23 195145" src="https://github.com/user-attachments/assets/080a6d28-5e1f-4427-b409-45e2f1126998" />
+
+<img width="705" height="761" alt="Screenshot 2026-06-23 195211" src="https://github.com/user-attachments/assets/d09871d5-54ee-4de2-a1bc-9eb23aeabc27" />
+
 
 ## Architecture
 
