@@ -1,0 +1,25 @@
+# Trafficly BTP ASTraM Automated Enforcement Configuration
+
+location:
+  junction_name: "Hebbal Flyover Junction (Outer Ring Rd)"
+  city: "Bengaluru"
+  state: "Karnataka"
+  police_unit: "ASTraM Unit (BTP)"
+  camera_id: "CAM-TRAFFICLY-01"
+
+models:
+  yolo_weights: "yolov8n.pt"  # Core vehicle detection weights
+  ocr_lang: "en"              # OCR engine lang
+
+tracking:
+  conf_threshold: 0.25        # Detection confidence
+  iou_threshold: 0.45         # NMS overlap
+
+# Scan Area Scope: Entire Camera Frame Scope (Global Radar Mode)
+
+# Citation Schedules
+fine_directory:
+  "No Helmet":
+    fine_amount: 500
+    section_code: "Sec 129 r/w 177 MVA"
+    description: "Riding a two-wheeler without wearing protective headgear (helmet)"

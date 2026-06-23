@@ -1,0 +1,57 @@
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── ML / Model weights (large files) ───────────────────
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+runs/
+# Keep the custom trained weights — uncomment to include:
+# !helmet_best.pt
+
+# ── Dataset ─────────────────────────────────────────────
+dataset/
+
+# ── Output / generated files ────────────────────────────
+output/
+*.mp4
+*.avi
+
+# ── IDE / OS ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Streamlit ────────────────────────────────────────────
+.streamlit/
+
+# ── Jupyter ──────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Secrets / env ────────────────────────────────────────
+.env
+.env.*
+secrets.toml
+config/settings_local.yaml
+
+# ── Logs ─────────────────────────────────────────────────
+*.log
+logs/

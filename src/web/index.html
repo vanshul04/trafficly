@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trafficly BTP ASTraM - Advanced Compliance Radar Dashboard</title>
+    <!-- Google Fonts: Outfit (modern display) & Inter (clean reading) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- ChartJS for telemetry donut and bar charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Top Animated Header Bar -->
+    <header class="app-header">
+        <div class="header-logo">
+            <span class="logo-icon">👮</span>
+            <div class="logo-text">
+                <span class="logo-badge">ASTraM Unit</span>
+                <h1>Trafficly</h1>
+            </div>
+            <span class="header-divider"></span>
+            <p class="header-subtitle">Bengaluru Traffic Police Automation Console</p>
+        </div>
+        <div class="header-telemetry">
+            <div class="status-pill active-scanning">
+                <span class="status-dot-glowing" id="status-dot"></span>
+                <span id="status-mode">RADAR SCANNER ONLINE</span>
+            </div>
+            <div class="header-clock" id="live-clock">2026-06-23 17:40:00</div>
+        </div>
+    </header>
+
+    <!-- Master Layout Grid -->
+    <div class="dashboard-container">
+        
+        <!-- ROW 1: Telemetry & Live Video feeds -->
+        <div class="main-radar-grid">
+            
+            <!-- VIEWPORT CARD: Live Video Feed -->
+            <section class="card viewport-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="pulse-icon">📡</span>
+                        <h2>Live Radar Compliance Feed</h2>
+                    </div>
+                    <span class="location-tag" id="feed-source">CAM-TRAFFICLY-01 (Hebbal Flyover)</span>
+                </div>
+                <div class="stream-container">
+                    <img src="/api/stream" alt="Live Compliance Stream" class="stream-img" id="video-stream">
+                    <!-- Laser Grid Overlay graphics -->
+                    <div class="hud-corners"></div>
+                    <div class="scanning-beam"></div>
+                </div>
+            </section>
+
+            <!-- STATS / ANALYTICS CENTER CARD -->
+            <section class="card stats-panel">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">📈</span>
+                        <h2>Radar Telemetry & Ledger</h2>
+                    </div>
+                </div>
+                
+                <!-- Metrics Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card text-blue">
+                        <span class="kpi-label">Riders Logged</span>
+                        <h3 class="kpi-val" id="metric-vehicles">0</h3>
+                    </div>
+                    <div class="kpi-card text-red">
+                        <span class="kpi-label">Helmet Violations</span>
+                        <h3 class="kpi-val" id="metric-violations">0</h3>
+                    </div>
+                    <div class="kpi-card text-green">
+                        <span class="kpi-label">Compliance Rate</span>
+                        <h3 class="kpi-val" id="metric-compliance">100%</h3>
+                    </div>
+                    <div class="kpi-card text-amber">
+                        <span class="kpi-label">Outstanding Fines</span>
+                        <h3 class="kpi-val" id="metric-outstanding">₹0</h3>
+                    </div>
+                </div>
+
+                <!-- Analysis Charts -->
+                <div class="charts-box">
+                    <div class="chart-container">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ledgerChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIVE OFFENSE SCROLLING COLUMN -->
+            <section class="card alert-panel">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">⚡</span>
+                        <h2>Live Infractions Stream</h2>
+                    </div>
+                </div>
+                <div class="alert-list" id="alert-stream">
+                    <div class="alert-empty" id="alert-empty">
+                        <span class="radar-ping"></span>
+                        <p>Awaiting radar detections...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ROW 2: E-Challan Repository -->
+        <section class="card repository-card">
+            <div class="card-header flex-header">
+                <div class="card-title">
+                    <span class="card-icon">📁</span>
+                    <h2>ASTraM E-Challan Registry (Karnataka Motor Vehicles Act)</h2>
+                </div>
+                <!-- Search bar -->
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-plate" placeholder="Search by Registration Plate (e.g. KA-51)" oninput="filterTable()">
+                </div>
+            </div>
+
+            <div class="table-scroller">
+                <table class="challan-table">
+                    <thead>
+                        <tr>
+                            <th>Violation Date & Time</th>
+                            <th>Challan ID Reference</th>
+                            <th>Registration Plate</th>
+                            <th>Violation Details</th>
+                            <th>Section & Legal Code</th>
+                            <th>Penalty Demand</th>
+                            <th>Payment Status</th>
+                            <th>Notice Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody id="challan-table-body">
+                        <tr id="table-empty-row">
+                            <td colspan="8" class="text-center text-muted">Awaiting radar tracking records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- PAYMENT MODAL DISPLAY -->
+    <div class="modal-overlay" id="challan-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Trafficly Electronic Citation Notice</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
